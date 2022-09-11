@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.0
+  slack: circleci/slack@4.10.1
 
 jobs:
   run_tests:
@@ -15,9 +16,17 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
 
 workflows:
   hippo_workflow:
     jobs:
-      - run_tests
+      - run_tests:
+          context:
+            - slack-secrets
