@@ -7,9 +7,13 @@ orbs:
 
 jobs:
   run_tests:
-    executor: node/default
+    docker:
+      - image: 'cimg/node:17.5.0'
+    environment:
+      IMAGE_NAME: mayoct/cci-hippo-container
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Create package-lock.json
           command: npm install     
@@ -17,6 +21,11 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
+      - run:
+          name: Build a container
+          command: docker build -t $IMAGE_NAME .
+      - snyk/scan:
+          docker-image-name: $IMAGE_NAME
       - slack/notify:
           event: fail
           template: basic_fail_1
