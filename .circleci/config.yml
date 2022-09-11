@@ -33,10 +33,10 @@ jobs:
           event: pass
           template: basic_success_1
 
-
 workflows:
   hippo_workflow:
     jobs:
       - run_tests:
           context:
             - slack-secrets
+            - snyk-secrets
