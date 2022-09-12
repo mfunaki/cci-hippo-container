@@ -2,41 +2,27 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.0
-  slack: circleci/slack@4.10.1
-  snyk: snyk/snyk@1.2.3
 
 jobs:
-  run_tests:
+  build:
     docker:
       - image: 'cimg/node:17.5.0'
     environment:
       IMAGE_NAME: mayoct/cci-hippo-container
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true  
       - run:
-          name: Create package-lock.json
           command: npm install     
       - node/install-packages
       - run:
-          name: Run tests
           command: npm run test
       - run:
           name: Build a container
           command: docker build -t $IMAGE_NAME .
-      - snyk/scan:
-          docker-image-name: $IMAGE_NAME
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: basic_success_1
 
 workflows:
   hippo_workflow:
     jobs:
-      - run_tests:
-          context:
-            - slack-secrets
-            - snyk-secrets
+      - build
