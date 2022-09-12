@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: 'cimg/node:17.5.0'
     environment:
-      IMAGE_NAME: $DOCKER_LOGIN/cci-hippo-container
+      IMAGE_NAME: mfunaki/cci-hippo-container
     steps:
       - checkout
       - setup_remote_docker:
