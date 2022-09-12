@@ -23,6 +23,7 @@ jobs:
       - docker/build:
           lint-dockerfile: true
           image: $IMAGE_NAME
+          tag: latest
       - snyk/scan:
           docker-image-name: $IMAGE_NAME
           severity-threshold: critical
