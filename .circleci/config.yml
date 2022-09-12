@@ -1,0 +1,32 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+  docker: circleci/docker@2.1.3
+
+jobs:
+  build:
+    docker:
+      - image: 'cimg/node:17.5.0'
+    environment:
+      IMAGE_NAME: mfunaki/cci-hippo-container
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - node/install-packages
+      - run:
+          command: npm run test
+      - docker/check
+      - docker/build:
+          lint-dockerfile: true
+          image: $IMAGE_NAME
+      - docker/push:
+          image: $IMAGE_NAME
+
+workflows:
+  hippo_workflow:
+    jobs:
+      - build:
+          context:
+            - docker
