@@ -18,8 +18,8 @@ jobs:
       - run:
           command: npm run test
       - docker/build:
-          image: $IMAGE_NAME
           lint-dockerfile: true
+          image: $IMAGE_NAME
 
 workflows:
   hippo_workflow:
