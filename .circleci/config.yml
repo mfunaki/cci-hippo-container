@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   docker: circleci/docker@2.1.3
+  slack: circleci/slack@4.10.1
 
 jobs:
   build:
@@ -23,6 +24,12 @@ jobs:
           image: $IMAGE_NAME
       - docker/push:
           image: $IMAGE_NAME
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
 workflows:
   hippo_workflow:
@@ -30,3 +37,4 @@ workflows:
       - build:
           context:
             - docker
+            - slack-secrets
