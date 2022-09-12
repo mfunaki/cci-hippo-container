@@ -17,6 +17,7 @@ jobs:
       - node/install-packages
       - run:
           command: npm run test
+      - docker/check
       - docker/build:
           lint-dockerfile: true
           image: $IMAGE_NAME
