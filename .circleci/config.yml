@@ -25,6 +25,7 @@ jobs:
           image: $IMAGE_NAME
       - snyk/scan:
           docker-image-name: $IMAGE_NAME
+          severity-threshold: critical
       - docker/push:
           image: $IMAGE_NAME
       - slack/notify:
