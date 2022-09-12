@@ -20,8 +20,12 @@ jobs:
       - docker/build:
           lint-dockerfile: true
           image: $IMAGE_NAME
+      - docker/push:
+          image: $IMAGE_NAME
 
 workflows:
   hippo_workflow:
     jobs:
-      - build
+      - build:
+          context:
+            - docker
