@@ -1,4 +1,4 @@
-FROM node:current-buster-slim
+FROM node:current-bullseye-slim
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
