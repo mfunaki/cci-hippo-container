@@ -6,6 +6,7 @@ ENV PORT 80
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+    libc6 \
     libc-bin \
     libpcre2-8-0 \
     zlib1g \
